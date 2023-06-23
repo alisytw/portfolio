@@ -13,7 +13,6 @@
         left: 50%;
         transform: translate(-50%, 0%);
 
-        height: 40px;
         width: 80%;
         border-radius: 15px;
 
@@ -133,7 +132,7 @@ body {
 
     background-color: var(--background-dark-variant);
 
-    height: 50px;
+    height: 9vh;
     width: 60%;
     border-radius: 15px;
     padding: 0 1em 0 1em;
