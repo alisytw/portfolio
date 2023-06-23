@@ -9,28 +9,30 @@
 </head>
 
 <link rel="stylesheet" href="style.css">
+<script src="script.js" async></script>
 
 <body>
 
     <div class="block block__one">
-        <div class="nav-bar">
-            <div class="nav-var--buttons">
-                <a id="nav-btn-home" href="#">Home</a>
-                <a id="nav-btn-projects" href="#">Projects</a>
-                <a id="nav-btn-study-cases" href="#">Study Cases</a>
-                <a id="nav-btn-contact" href="#">Contact</a>
+        <div id="navBar" class="nav-bar">
+            <div class="nav-bar--buttons">
+                <a id="nav-btn-home" href="#home">Home <span class="nav-btn--underline"></span></a>
+                <a id="nav-btn-projects" href="#projects">Projects</a>
+                <a id="nav-btn-study-cases" href="#studyCases">Study Cases</a>
+                <a id="nav-btn-contact" href="#contact">Contact</a>
             </div>
             <span class="nav-btn--signature">by Georgy</span>
         </div>
-        <div class="block-one--text">
-            <h1>Hello, I am Georgy Nejmeh</h1>
-            <h3>A second year student at the Faculty of Information Technology Engineering at Damascus University</h3>
-            <br><br>
-            <h3>Previous Experience Summary</h3>
+        <div id="home" class="block-one--text">
+            <h1>My name is <span class="text-name">GEORGY NEJMEH</span> </h1>
+            <h3>I am a second year student at the Faculty of Information Technology Engineering at Damascus University</h3>
+            <br>
+            <h3>Full Stack Developer ready to take on new challenges</h3>
+            <br>
+            <h3><u>Previous Experience Summary</u></h3>
             <p>
-                Programming languages: Python • Java • Kotlin • Flutter • HTML • CSS • JavaScript • C# • C++
-                <br>Implementation: RESTful APIs • oAuth2 • Security • Speed
-
+                <u>Programming languages:</u> Python • Java • Kotlin • Flutter • HTML • CSS • JavaScript • C# • C++
+                <br><u>Implementation:</u> RESTful APIs • oAuth2 • Text Manupilation & Organization • Web Scraping • Android Development • Web Development • UI/UX • Security
                 <br><br>Linux • CMD • PowerShell
                 <br>Adobe Photoshop • Adobe Illustrator • Figma • Android Studio • Adobe Premiere
             </p>
@@ -38,9 +40,9 @@
         <img class="background--anon-mask" src="Imgs/background-anon-mask.png" alt="anonymous mask">
     </div>
 
-    <div class="block block__two">
+    <div id="projects" class="block block__two">
 
-        <div class="block-two--text">
+        <div class="block__light--text">
             <h1>Projects</h1>
 
         </div>
@@ -90,10 +92,20 @@
         
     </div>
 
-    <div class="block block__three"></div>
+    <div id="studyCases" class="block block__three">
+        <div class="block-three--text">
+            <h1>Study Cases</h1>
+
+        </div>
+    </div>
+    
+    <div id="contact" class="block block__four">
+        <div class="block__light--text">
+            <h1>Contact</h1>
+
+        </div>
+    </div>
 
 </body>
-
-<script src="script.js" async></script>
 
 </html>
