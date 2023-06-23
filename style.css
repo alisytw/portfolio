@@ -13,7 +13,7 @@
         left: 50%;
         transform: translate(-50%, 0%);
 
-        height: 9%;
+        height: 40px;
         width: 80%;
         border-radius: 15px;
 
@@ -64,7 +64,7 @@
 
 @media screen and (max-width: 400px) {
     div.nav-bar {
-        font-size: .60rem;
+        font-size: .70rem;
     }
 }
 
@@ -133,7 +133,7 @@ body {
 
     background-color: var(--background-dark-variant);
 
-    height: 9%;
+    height: 50px;
     width: 60%;
     border-radius: 15px;
     padding: 0 1em 0 1em;
@@ -144,6 +144,7 @@ body {
     z-index: 1;
 
     user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .nav-bar--buttons {
