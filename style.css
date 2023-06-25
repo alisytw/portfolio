@@ -33,7 +33,7 @@
 
     div.block-one--text {
         text-align: center;
-        padding: 6em 0em 0em 0em;
+        padding: 5em 0em 0em 0em;
     }
 
     div.block {
@@ -58,6 +58,11 @@
 
     img.background--anon-mask {
         height: 40%;
+    }
+
+    div.contact--btn-wrapper {
+        align-self: unset;
+        padding-top: 75vh;
     }
 }
 
@@ -237,6 +242,7 @@ span.text-name {
     transition: 200ms;
 
     border-radius: 15px;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .card--wrapper:hover {
@@ -279,4 +285,26 @@ span.text-name {
     background-color: var(--color-over-dark);
 
     border-radius: 0 0 15px 15px;
+}
+
+.block__four {
+    display: grid;
+}
+
+.contact--btn-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+
+    justify-self: flex-end;
+    align-self: flex-end;
+}
+
+.contact--btn-wrapper>a {
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.contact--icon-img {
+    width: 4em; 
 }
