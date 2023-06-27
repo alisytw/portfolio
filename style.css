@@ -66,10 +66,16 @@
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 415px) {
     div.nav-bar {
-        height: 7%;
+        height: 7vw;
         font-size: .70rem;
+    }
+}
+
+@media screen and (max-width: 335px) {
+    div.nav-bar {
+        font-size: .60rem;
     }
 }
 
@@ -142,6 +148,8 @@ body {
     min-height: 40px;
     max-height: 60px;
     width: 60%;
+    min-width: 200px;
+    max-width: 1000px;
     border-radius: 15px;
     padding: 0 1em 0 1em;
 
