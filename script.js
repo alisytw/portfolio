@@ -48,6 +48,10 @@ for (let i = 0; i < cardList.length; i++) {
     card.addEventListener('mouseout', () => {
         cardImg.classList.remove('card--img__hover')
     })
+    // TODO : remove when done
+    card.addEventListener('click', () => {
+        window.location.href = window.location.href + 'underconstruction.html'
+    })
 }
 
 // smooth scrolling when hitting a specific button (<a> href)

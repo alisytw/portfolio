@@ -62,7 +62,7 @@
 
     div.contact--btn-wrapper {
         align-self: unset;
-        padding-top: 75vh;
+        /* padding-top: 75vh; */        
     }
 }
 
@@ -297,6 +297,7 @@ span.text-name {
 
 .block__four {
     display: grid;
+    min-height: fit-content; /* TODO: to remove when done */
 }
 
 .contact--btn-wrapper {
@@ -306,6 +307,8 @@ span.text-name {
 
     justify-self: flex-end;
     align-self: flex-end;
+
+    padding: 3em;
 }
 
 .contact--btn-wrapper>a {
