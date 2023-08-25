@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma Projects</title>
+</head>
+
+<body>
+
+    <div id="foodAppCard" class="card">
+        <div class="card__img-wrapper">
+            <img src="Imgs/Figma__food-app/food-logo.jpg" alt="food app logo" width="240px" height="240px">
+        </div>
+        <div class="card__name">
+            <h3>Food App</h3>
+        </div>
+    </div>
+
+</body>
+
+<style>
+    body {
+        color: #dddddd;
+        background-color: #222222;
+    }
+
+    .card {
+        height: 240px;
+        width: 240px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        opacity: 80%;
+        box-shadow: rgb(255, 127, 80) 0px 0px 0px 10px;
+    }
+
+    .card__name {
+        position: relative;
+        bottom: 50%;
+        text-align: center;
+        background-color: coral;
+        color: black;
+    }
+</style>
+
+<script>
+    let card = document.getElementById('foodAppCard')
+    card.addEventListener('click', () => {
+        window.location.href = window.location.href + 'figma-food-app.html'
+    })
+</script>
+
+</html>

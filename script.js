@@ -9,6 +9,8 @@ const homeBtn = document.getElementById('nav-btn-home')
 const projectsBtn = document.getElementById('nav-btn-projects')
 const studyCasesBtn = document.getElementById('nav-btn-study-cases')
 const contactBtn = document.getElementById('nav-btn-contact')
+// Cards
+const FigmaCard = document.getElementById('figmaCard')
 
 // GLOBAL FUCNTION
 function resetHighlight() {
@@ -36,6 +38,7 @@ function checkHighlight() {
 }
 
 
+
 // tint card image on hover
 const cardList = document.getElementsByClassName('card--wrapper')
 const cardImgList = document.getElementsByClassName('card--img-wrapper')
@@ -47,10 +50,6 @@ for (let i = 0; i < cardList.length; i++) {
     })
     card.addEventListener('mouseout', () => {
         cardImg.classList.remove('card--img__hover')
-    })
-    // TODO : remove when done
-    card.addEventListener('click', () => {
-        window.location.href = window.location.href + 'underconstruction.html'
     })
 }
 
@@ -81,3 +80,15 @@ window.onscroll = function () {
         checkHighlight()
     }
 }
+
+const cardUnfinishedList = document.getElementsByClassName('card__unfinished')
+for (let i = 0; i < cardUnfinishedList.length; i++) {
+    const cardUnfinished = cardUnfinishedList[i];
+    // TODO : remove when done
+    cardUnfinished.addEventListener('click', () => {
+        window.location.href = window.location.href + 'underconstruction.html'
+    })
+}
+FigmaCard.addEventListener('click', () => {
+    window.location.href = window.location.href + 'figma-projects.html'
+})
