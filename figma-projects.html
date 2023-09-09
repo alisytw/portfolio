@@ -48,17 +48,24 @@
 </body>
 
 <style>
+
+    @media screen and (max-width: 850px) {
+        .project-list {
+            flex-direction: column;
+        }
+    }
+
     body {
         color: #dddddd;
         background-color: #222222;
+        display: grid;
+        justify-content: center;
     }
 
     .project-list {
         display: flex;
-        flex-wrap: wrap;
         gap: 4em;
-
-        padding: 6em 6em 6em 6em;
+        margin: 4em;
     }
 
     .card {
