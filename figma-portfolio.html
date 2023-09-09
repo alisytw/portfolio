@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma Portfolio</title>
+</head>
+<body>
+    
+    <h1>Portfolio Concept</h1>
+    <hr>
+    <div class="section__portfolio-wrapper">
+        <div class="center">
+            <div class="section__portfolio">
+                <div class="section__content-wrapper">
+                    <h3>The Whole Project</h3>
+                    <img src="Imgs/Fimga__portfolio/Screenshot 01.png">
+                </div>
+            </div>
+        </div>
+
+        <div class="section__content-wrapper">
+            <h3>Home Screen</h3>
+            <img src="Imgs/Fimga__portfolio/Screenshot 02.png">
+        </div>
+        <div class="section__content-wrapper">
+            <h3>Projects Section</h3>
+            <img src="Imgs/Fimga__portfolio/Screenshot 03.png">
+        </div>
+        <div class="section__content-wrapper">
+            <h3>Contact Section</h3>
+            <img src="Imgs/Fimga__portfolio/Screenshot 04.png">
+        </div>
+
+
+        <div class="center">
+            <div class="section__portfolio">
+                <div class="section__content-wrapper">
+                    <h3>Components</h3>
+                    <img src="Imgs/Fimga__portfolio/Screenshot 05.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<style>
+
+    body {
+        color: #dddddd;
+        background-color: #222222;
+    }
+
+    .section__portfolio {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
+    }
+
+    .section__content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .center {
+        display: grid;
+        place-items: center;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 85%;
+    }
+
+    h1 {
+        text-align: center;
+    }
+</style>
+
+</html>
