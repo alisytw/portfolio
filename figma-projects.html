@@ -31,6 +31,17 @@
                 </div>
             </div>
         </a>
+
+        <a href="figma-reminder-app.html">
+            <div id="portfolioCard" class="card">
+                <div class="card__img-wrapper">
+                    <img src="Imgs/Figma__reminder-app/reminder-app-logo.png" alt="reminder app logo" width="240px" height="240px">
+                </div>
+                <div class="card__name">
+                    <h3>Reminder App</h3>
+                </div>
+            </div>
+        </a>
     </div>
 
 
@@ -40,27 +51,14 @@
     body {
         color: #dddddd;
         background-color: #222222;
-
-        margin: 0;
-        height: 100vh;
-        width: 100vw;
-    }
-
-    @media screen and (max-width: 500px) {
-        .project-list {
-        flex-wrap: wrap;
-        }
     }
 
     .project-list {
         display: flex;
-        /* flex-wrap: wrap; */
+        flex-wrap: wrap;
         gap: 4em;
 
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        padding: 6em 6em 6em 6em;
     }
 
     .card {
@@ -89,12 +87,5 @@
         text-decoration: none;
     }
 </style>
-
-<script>
-    let card = document.getElementById('foodAppCard')
-    card.addEventListener('click', () => {
-        window.location.href = window.location.href + 'figma-food-app.html'
-    })
-</script>
 
 </html>

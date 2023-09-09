@@ -81,14 +81,3 @@ window.onscroll = function () {
     }
 }
 
-const cardUnfinishedList = document.getElementsByClassName('card__unfinished')
-for (let i = 0; i < cardUnfinishedList.length; i++) {
-    const cardUnfinished = cardUnfinishedList[i];
-    // TODO : remove when done
-    cardUnfinished.addEventListener('click', () => {
-        window.location.href = window.location.href + 'underconstruction.html'
-    })
-}
-FigmaCard.addEventListener('click', () => {
-    window.location.href = window.location.href + 'figma-projects.html'
-})
