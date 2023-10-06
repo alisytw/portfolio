@@ -47,6 +47,19 @@
         padding: 1em 0 0 0;
     }
 
+    /* temp */
+    div.block__three {
+        display: grid;
+        align-items: inherit;
+    }
+    div.block-three--text{
+        place-self: center;
+    }
+
+    div.block-three--text>h1 {
+        padding: 1em 0 0 0;
+    }
+
     div.block-two--card-list {
         flex-direction: column;
         justify-content: space-around;
@@ -63,7 +76,7 @@
 
     div.contact--btn-wrapper {
         align-self: unset;
-        padding-top: 35vh;       
+        padding-top: 35vh;
     }
 }
 
@@ -270,7 +283,7 @@ span.text-name {
     transition: 200ms;
 
     border-radius: 15px 15px 0 0;
-    
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -280,8 +293,8 @@ span.text-name {
 
 .card--img {
     user-select: none;
-    -webkit-user-drag: none; 
-    
+    -webkit-user-drag: none;
+
     max-height: 12em;
 }
 
@@ -321,5 +334,14 @@ span.text-name {
 }
 
 .contact--icon-img {
-    width: 4em; 
+    width: 4em;
+}
+
+/* temp */
+.block__three {
+    display: grid;
+}
+
+.block__three > img {
+    justify-self: center;
 }
