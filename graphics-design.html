@@ -10,6 +10,17 @@
         <h1>Business Card - Dentist</h1>
         <img src="Imgs/Graphics-Design/Business Card - Dentist.png" alt="Dentist Business Card">
     </div>
+    <div class="name-image-container">
+        <h1>Facebook / IG Post Concept</h1>
+        <img src="Imgs/Graphics-Design/water-bottle-post.jpg" alt="Water Bottle Post">
+    </div>
+    <div class="name-image-container">
+        <h1>Dahab Jewelry Concept</h1>
+        <div class="images-container">
+            <img src="Imgs/Graphics-Design/dahab-jewelry-watch-case.jpg" alt="Dahab Watch">
+            <img src="Imgs/Graphics-Design/dahab-jewelry-business-card.jpg" alt="Dahab Business Card">
+        </div>
+    </div>
 </body>
 
 <style>
@@ -21,13 +32,20 @@
         text-align: center;
     }
     img {
-        max-height: 85%;
-        max-width: 100%;
+        max-height: 85vh;
+        max-width: 85vw;
     }
     .name-image-container {
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+    .images-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
     }
 </style>
 
