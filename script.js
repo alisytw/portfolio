@@ -2,12 +2,10 @@
 // Sections
 const homeSection = document.getElementById('home')
 const projectsSection = document.getElementById('projects')
-const studyCasesSection = document.getElementById('studyCases')
 const contactSection = document.getElementById('contact')
 // Buttons
 const homeBtn = document.getElementById('nav-btn-home')
 const projectsBtn = document.getElementById('nav-btn-projects')
-const studyCasesBtn = document.getElementById('nav-btn-study-cases')
 const contactBtn = document.getElementById('nav-btn-contact')
 // Cards
 const FigmaCard = document.getElementById('figmaCard')
@@ -28,9 +26,6 @@ function checkHighlight() {
     } else if (isInViewport(projectsSection)) {
         resetHighlight()
         projectsBtn.classList.add('nav-bar--btn__selected')
-    } else if (isInViewport(studyCasesSection)) {
-        resetHighlight()
-        studyCasesBtn.classList.add('nav-bar--btn__selected')
     } else if (isInViewport(contactSection)) {
         resetHighlight()
         contactBtn.classList.add('nav-bar--btn__selected')

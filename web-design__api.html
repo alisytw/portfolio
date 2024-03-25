@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web API</title>
+</head>
+<body>
+    <div class="name-image-container">
+        <h1>API Documentation</h1>
+        <p>Designing and documentating custom API for you needs!</p>
+        <div class="images-container">
+            <hr>
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (1).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (2).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (3).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (4).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (5).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (6).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (7).jpg">
+            <img class="responsive-img" src="Imgs/Web-Design/api/api (8).jpg">
+        </div>
+    </div>
+</body>
+
+<style>
+    @media screen and (min-width: 850px) {
+        img.responsive-img {
+            max-height: 50vh;
+            max-width: 50vw;
+        }
+    }
+
+    body {
+        background-color: #222222;
+        color: white;
+    }
+    h1 {
+        text-align: center;
+    }
+    img {
+        max-height: 85vh;
+        max-width: 85vw;
+    }
+    hr {
+        min-width: 90vw;
+    }
+    .name-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .images-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
+    }
+</style>
+
+</html>

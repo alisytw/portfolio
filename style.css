@@ -36,6 +36,11 @@
         padding: 5em 0em 0em 0em;
         margin: 0em 2em 0em 2em;
     }
+    
+    div.block-three--text {
+        margin: 0em 0em 0em 0em;
+        color: var(--text-over-dark);
+    }
 
     div.block {
         display: flex;
@@ -44,19 +49,6 @@
     }
 
     div.block__light--text>h1 {
-        padding: 1em 0 0 0;
-    }
-
-    /* temp */
-    div.block__three {
-        display: grid;
-        align-items: inherit;
-    }
-    div.block-three--text{
-        place-self: center;
-    }
-
-    div.block-three--text>h1 {
         padding: 1em 0 0 0;
     }
 
@@ -76,7 +68,7 @@
 
     div.contact--btn-wrapper {
         align-self: unset;
-        padding-top: 35vh;
+        padding-top: 8vh;
     }
 }
 
@@ -212,6 +204,11 @@ a {
     color: var(--text-over-dark);
 }
 
+.block-three--text {
+    margin: 0em 0em 0em 4em;
+    color: var(--text-over-dark);
+}
+
 .block-one--text>* {
     margin: 0;
     padding: 0.5rem;
@@ -233,20 +230,6 @@ span.text-name {
 }
 
 .block__light--text>h1 {
-    padding: 1em 0em 0em 1em;
-}
-
-.block-three--text {
-    padding: 0;
-    color: var(--text-over-dark);
-}
-
-.block-three--text>* {
-    margin: 0;
-    padding: 0.5rem;
-}
-
-.block-three--text>h1 {
     padding: 1em 0em 0em 1em;
 }
 
@@ -312,7 +295,7 @@ span.text-name {
     border-radius: 0 0 15px 15px;
 }
 
-.block__four {
+.block__three {
     display: grid;
     min-height: 50vh;
 }
@@ -337,11 +320,3 @@ span.text-name {
     width: 4em;
 }
 
-/* temp */
-.block__three {
-    display: grid;
-}
-
-.block__three > img {
-    justify-self: center;
-}
