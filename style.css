@@ -32,7 +32,7 @@
     }
 
     div.block-one--text {
-        text-align: center;
+        /* text-align: center; */
         padding: 5em 0em 0em 0em;
         margin: 0em 2em 0em 2em;
     }
@@ -216,6 +216,10 @@ a {
 
 span.text-name {
     font-size: 3rem;
+    color: var(--color-over-dark);
+}
+
+span.text-accent {
     color: var(--color-over-dark);
 }
 

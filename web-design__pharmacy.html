@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Application</title>
+</head>
+<body>
+    <div class="name-image-container">
+        <h1>Design / Prototype</h1>
+        <div class="images-container">
+            <hr>
+            <img src="Imgs/Web-Design/application/app-design.png">
+        </div>
+    </div>
+    <div class="name-image-container">
+        <div class="images-container">
+            <hr>
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (1).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (2).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (3).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (4).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (5).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (6).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (7).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (8).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (9).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (10).png">
+            <img class="responsive-img" src="Imgs/Web-Design/application/app-design (11).png">
+        </div>
+    </div>
+</body>
+
+<style>
+    @media screen and (max-width: 850px) {
+        img.responsive-img {
+            max-height: 34vh;
+            max-width: 34vw;
+        }
+    }
+
+    body {
+        background-color: #222222;
+        color: white;
+    }
+    h1 {
+        text-align: center;
+    }
+    img {
+        max-height: 85vh;
+        max-width: 85vw;
+    }
+    hr {
+        min-width: 90vw;
+    }
+    .name-image-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .images-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2em;
+        justify-content: center;
+    }
+</style>
+
+</html>
