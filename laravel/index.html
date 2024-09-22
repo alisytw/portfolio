@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laravel Portfolio</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-lolcode.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div style="display: flex; gap: 4px; align-items: center">
+      <img width="48" height="48" src="imgs/img01.png" alt="laravel icon" />
+      <img width="48" height="48" src="imgs/img02.png" alt="websocket icon" />
+      <h1>Laravel - API - Webscoket - Authentication</h1>
+    </div>
+    <hr />
+    <div class="compact" style="gap: 1em">
+      <div>
+        <h1>Index</h1>
+        <div style="margin-left: 25px">
+          <a href="#websocket-private">
+            <h2>Websocket Reverb (private channel)</h2>
+          </a>
+          <a href="#websocket-public">
+            <h2>Websocket Reverb (public channel)</h2>
+          </a>
+          <a href="#websocket-blade">
+            <h2>Websocket Echo (blade)</h2>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="websocket-private">Websocket Reverb (private channel)</h2>
+      <div class="compact">
+        <div>
+          <h3>App\Events\OrderEvent.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+namespace App\Events;
+
+use App\Models\Order;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class OrderEvent implements ShouldBroadcast
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(private Order $order, public $status = null)
+    {
+        $this->status = $order->status;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array&lt;int, \Illuminate\Broadcasting\Channel&gt;
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new PrivateChannel('order.' . $this->order->id),
+        ];
+    }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>App\Controllers\OrderController.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Events\OrderEvent;
+use App\Models\Order;
+use Illuminate\Http\Request;
+
+class OrderController extends Controller
+{
+    public function create(Request $request)
+    {
+        $order = new Order();
+        $order->user_id = $request->user_id;
+        $order->status = $request->status;
+        $order->save();
+        OrderEvent::dispatch($order);
+        return response()->json();
+    }
+
+    public function update(Request $request)
+    {
+        $order = Order::findOrFail($request->id);
+        $order->status = $request->status;
+        $order->save();
+        OrderEvent::dispatch($order);
+        return response()->json();
+    }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>routes\channels.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+use App\Models\Order;
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::channel('order.{orderId}', function ($user, $orderId) {
+    return $user->id === Order::findOrFail($orderId)->user_id;
+});
+</code></pre>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="websocket-public">Websocket Reverb (public channel)</h2>
+      <div class="compact">
+        <div>
+          <h3>App\Events\OrderEvent.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+namespace App\Events;
+
+use App\Models\Order;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class OrderEvent implements ShouldBroadcast
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public string $status;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(private Order $order)
+    {
+        $this->status = $order->status;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return array&lt;int, \Illuminate\Broadcasting\Channel&gt;
+     */
+    public function broadcastOn(): array
+    {
+        return [
+            new Channel('order-channel'),
+        ];
+    }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>App\Controllers\OrderController.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Events\OrderEvent;
+use App\Models\Order;
+use Illuminate\Http\Request;
+
+class OrderController extends Controller
+{
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $order = Order::create($request->all());
+        return response()->json([$order], 201);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $order = Order::findOrFail($request->id);
+        $order->status = $request->status;
+        $order->save();
+        OrderEvent::dispatch($order);
+
+        return response()->json([$order], 200);
+    }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>routes\channels.php</h3>
+          <pre><code class="language-php">&lt;?php
+
+use Illuminate\Support\Facades\Broadcast;
+
+Broadcast::channel('order-channel', function ($order) {
+    return true;
+});
+</code></pre>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="websocket-blade">Websocket Echo (blade)</h2>
+      <div class="compact">
+        <div>
+          <h3>resources/view/welcome.blade.php</h3>
+          <pre><code class="language-html">&lt;html>
+  &lt;head>
+  &lt;meta charset="utf-8">
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1">
+
+  &lt;title>Laravel&lt;/title>
+
+  @vite(['resources/js/app.js']);
+  &lt;/head>
+
+  &lt;body>
+    &lt;script type="module">
+      Echo.channel("order-channel").listen("MessageEvent", (e) => {
+          console.log(e);
+      });
+    &lt;/script>
+  &lt;/body>
+&lt;/html>
+</code></pre>
+        </div>
+        <div>
+          <h3>CLI commands</h3>
+          <pre><code class="language-">php artisan install:api
+
+php artisan install:broacasting
+
+php artisan migrate
+
+php artisan reverb:start
+
+php artisan queue:listen
+
+php artisan serve
+
+npm run dev</code></pre>
+        </div>
+        <!-- <div>
+          <h3>bloc</h3>
+          <pre><code class="language-php"></code></pre>
+        </div> -->
+      </div>
+      <!-- <div class="compact">
+        <div>
+          <h3>Pages</h3>
+          <pre><code class="language-php"></code></pre>
+        </div>
+        <div>
+          <h3>Widgets</h3>
+          <pre><code class="language-php"></code></pre>
+        </div>
+        <div>
+          <h3>Main</h3>
+          <pre><code class="language-php"></code></pre>
+        </div>
+      </div> -->
+    </div>
+  </body>
+  <script src="prism/prism-tn.js"></script>
+</html>
