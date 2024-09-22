@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NextJS Portfolio</title>
+    <link href="prism/prism-tn.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div style="display: flex; gap: 8px; align-items: center">
+      <div>
+        <img width="92" height="48" src="imgs/img01.png" alt="next js logo" />
+        <img width="56" height="48" src="imgs/img02.png" alt="react js logo" />
+        <img width="48" height="48" src="imgs/img03.png" alt="redux logo" />
+        <img width="48" height="48" src="imgs/img04.png" alt="prisma js logo" />
+        <img
+          width="48"
+          height="48"
+          src="imgs/img05.png"
+          alt="typescript logo"
+        />
+      </div>
+      <h1>NextJS - ReactJS - Redux - PrismaJS -TypeScript</h1>
+    </div>
+    <hr />
+    <div class="compact" style="gap: 1em">
+      <div>
+        <h1>Index</h1>
+        <div style="margin-left: 50px">
+          <a href="#prismajs">
+            <h2>PrismaJS API Endpoints</h2>
+          </a>
+          <a href="#redux">
+            <h2>Redux</h2>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h1>Skills</h1>
+        <div style="margin-left: 50px">
+          <h2 class="gray">Highly Resuable Components</h2>
+          <h2 class="gray">Redux State Management</h2>
+          <h2 class="gray">React Hooks</h2>
+          <h2 class="gray">Tailwind CSS</h2>
+          <h2 class="gray">SEO - SSR / CSR</h2>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="prismajs">PrismaJS API Endpoints</h2>
+      <div class="compact">
+        <div>
+          <h3>app/api/users.tsx</h3>
+          <pre><code class="language-tsx">import prisma from "@/prisma/db";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(request: NextRequest) {
+  const users = await prisma.user.findMany();
+  return NextResponse.json(users);
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const user = await prisma.user.create({
+    data: body,
+  });
+  return NextResponse.json(user);
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>app/users/[id]/route.tsx</h3>
+          <pre><code class="language-tsx">import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/prisma/db";
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const user = await prisma.user.findFirstOrThrow({
+      where: {
+        id: parseInt(params.id),
+      },
+    });
+    return NextResponse.json(user);
+  } catch (error) {
+    return NextResponse.json([], { status: 404 });
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const body = await request.json();
+    const user = await prisma.user.update({
+      where: {
+        id: parseInt(params.id),
+      },
+      data: {
+        name: body.name,
+        email: body.email,
+      },
+    });
+    return NextResponse.json(user);
+  } catch (error) {
+    return NextResponse.json([], { status: 404 });
+  }
+}
+</code></pre>
+        </div>
+        <!-- <div>
+          <h3>Use Cases</h3>
+          <pre><code class="language-dart"></code></pre>
+        </div> -->
+      </div>
+    </div>
+    <div>
+      <h2 id="redux">Redux</h2>
+      <div class="compact">
+        <div>
+          <h3>app/redux/store.ts</h3>
+          <pre><code class="language-tsx">import { configureStore } from '@reduxjs/toolkit'
+import counterReducer from './features/counter/counterSlice' 
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer, 
+  }
+})
+
+export type RootState = ReturnType&lt;typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+export type AppStore = typeof store</code></pre>
+        </div>
+        <div>
+          <h3>app/redux/hooks.ts</h3>
+          <pre><code class="language-tsx">import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from './store';
+
+export const useAppDispatch = () => useDispatch&lt;AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook&lt;RootState> = useSelector;
+</code></pre>
+        </div>
+        <div>
+          <h3 id="http">app/redux/features/counter/counterSlice.ts</h3>
+          <pre><code class="language-tsx">import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../../store'
+
+export interface CounterState {
+  value: number
+}
+
+const initialState: CounterState = {
+  value: 0
+}
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: state => {
+      state.value += 1
+    },
+    decrement: state => {
+      state.value -= 1
+    },
+    incrementByAmount: (state, action: PayloadAction&lt;number>) => {
+      state.value += action.payload
+    }
+  }
+})
+
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+export const selectCount = (state: RootState) => state.counter.value
+
+export default counterSlice.reducer</code></pre>
+        </div>
+        <div>
+          <h3 id="http">app/redux/features/counter/Counter.tsx</h3>
+          <pre><code class="language-tsx">"use client";
+            
+import React from "react";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { decrement, increment } from "./counterSlice";
+
+export function Counter() {
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
+
+  return (
+    &lt;div className="flex gap-4 items-center">
+      &lt;button
+        className="bg-gray-400 p-4 rounded-xl"
+        aria-label="Decrement value"
+        onClick={() => dispatch(decrement())}
+      >
+        -
+      &lt;/button>
+      &lt;span>{count}&lt;/span>
+      &lt;button
+        className="bg-gray-400 p-4 rounded-xl"
+        aria-label="Increment value"
+        onClick={() => dispatch(increment())}
+      >
+        +
+      &lt;/button>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </div>
+        <div>
+          <h3 id="http">app/page.tsx</h3>
+          <pre><code class="language-tsx">"use client";
+
+import { Counter } from "./redux/features/counter/Counter";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
+export default function Home() {
+  return (
+    &lt;div className="">
+      &lt;h1>REDUX&lt;/h1>
+      &lt;Provider store={store}>
+        &lt;Counter />
+      &lt;/Provider>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="prism/prism-tn.js"></script>
+</html>
