@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flutter Portfolio</title>
+    <link href="prism/prism-tn.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div style="display: flex; gap: 4px; align-items: center">
+      <img width="48" height="48" src="imgs/img02.png" alt="flutter icon" />
+      <img
+        width="48"
+        height="48"
+        src="imgs/img03.png"
+        alt="flutter bloc icon"
+      />
+      <h1>Flutter Clean Architecture - Bloc</h1>
+    </div>
+    <hr />
+    <div class="compact" style="gap: 1em">
+      <img src="imgs/img01.png" alt="flutter clean architecture directories" />
+      <div>
+        <h1>Index</h1>
+        <div style="margin-left: 50px">
+          <a href="#domain">
+            <h2>Domain Layer</h2>
+          </a>
+          <a href="#data">
+            <h2>Data Layer</h2>
+          </a>
+          <a href="#presentation">
+            <h2>Presentation Layer</h2>
+          </a>
+          <a href="#bloc">
+            <h2>Bloc</h2>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h1>Skills</h1>
+        <div style="margin-left: 50px">
+          <h2 class="gray">Flutter MVVM</h2>
+          <h2 class="gray">Bloc State Management</h2>
+          <h2 class="gray">Http Package</h2>
+          <h2 class="gray">Responsive Design</h2>
+          <h2 class="gray">Streams & Websockets</h2>
+          <h2 class="gray">Navigation & Routing</h2>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="domain">Domain Layer</h2>
+      <div class="compact">
+        <div>
+          <h3>Entities</h3>
+          <pre><code class="language-dart"></code>class Post {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  const Post({
+    required this.userId,
+    required this.id,
+    required this.title,
+    required this.body,
+  });
+}
+</pre>
+        </div>
+        <div>
+          <h3>Repositories</h3>
+          <pre><code class="language-dart">import '../entities/post_entity.dart';
+
+abstract class PostsRepo {
+  Future&lt;List&lt;Post&gt;&gt; getAllPosts();
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>Use Cases</h3>
+          <pre><code class="language-dart">import '../entities/post_entity.dart';
+import '../repos/posts_repo.dart';
+
+abstract class UseCase&lt;Type, Params&gt; {
+  Future&lt;Type&gt; call({Params params});
+}
+
+class GetAllPostsUseCase implements UseCase {
+  final PostsRepo postsRepo;
+
+  GetAllPostsUseCase({required this.postsRepo});
+
+  @override
+  Future&lt;List&lt;Post&gt;&gt; call({params}) {
+    return postsRepo.getAllPosts();
+  }
+}
+</code></pre>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="data">Data Layer</h2>
+      <div class="compact">
+        <div>
+          <h3>Models</h3>
+          <pre><code class="language-dart">import '../../domain/entities/post_entity.dart';
+
+class PostModel extends Post {
+  PostModel({
+    required super.userId,
+    required super.id,
+    required super.title,
+    required super.body,
+  });
+
+  factory PostModel.fromJson(Map&lt;String, dynamic&gt; json) {
+    return PostModel(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>Repositories</h3>
+          <pre><code class="language-dart">import '../../domain/entities/post_entity.dart';
+import '../../domain/repos/posts_repo.dart';
+import '../data_sources/posts_api.dart';
+import '../models/post_model.dart';
+
+class PostsRepoImpl implements PostsRepo {
+  final PostsApiImpl postsApiImpl;
+
+  PostsRepoImpl({required this.postsApiImpl});
+
+  @override
+  Future&lt;List&lt;Post&gt;&gt; getAllPosts() async {
+    List&lt;PostModel&gt; response = await postsApiImpl.getAllPosts();
+    return response;
+  }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3 id="http">Data Sources</h3>
+          <pre><code class="language-dart">import 'dart:convert';
+
+import '../models/post_model.dart';
+import 'package:http/http.dart' as http;
+
+const String BASE_URL = 'https://jsonplaceholder.typicode.com';
+
+abstract class PostsApi {
+  Future&lt;List&lt;PostModel&gt;&gt; getAllPosts();
+}
+
+class PostsApiImpl extends PostsApi {
+  @override
+  Future&lt;List&lt;PostModel&gt;&gt; getAllPosts() async {
+    final response = await http.get(Uri.parse('$BASE_URL/posts/'));
+
+    if (response.statusCode == 200) {
+      List jsonList = jsonDecode(response.body);
+      List&lt;PostModel> posts =
+          jsonList.map((json) => PostModel.fromJson(json)).toList();
+      return posts;
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+}
+</code></pre>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2 id="presentation">Presentation Layer</h2>
+      <div>
+        <h2 id="bloc">Bloc</h2>
+        <div class="compact">
+          <div>
+            <h3>state</h3>
+            <pre><code class="language-dart">part of 'posts_bloc.dart';
+
+sealed class PostsState extends Equatable {
+  const PostsState();
+
+  @override
+  List &lt;Object&gt; get props => [];
+}
+
+final class PostsInitial extends PostsState {}
+
+final class PostsLoading extends PostsState {}
+
+final class PostsLoaded extends PostsState {
+  final List &lt;Post&gt; posts;
+
+  const PostsLoaded({required this.posts});
+
+  @override
+  List &lt;Object&gt; get props => [posts];
+}
+
+final class PostsError extends PostsState {
+  final String message;
+
+  const PostsError({required this.message});
+
+  @override
+  List &lt;Object&gt; get props => [message];
+}
+</code></pre>
+          </div>
+          <div>
+            <h3>event</h3>
+            <pre><code class="language-dart">part of 'posts_bloc.dart';
+
+sealed class PostsEvent extends Equatable {
+  const PostsEvent();
+
+  @override
+  List &lt;Object&gt; get props => [];
+}
+
+class GetAllPostsEvent extends PostsEvent {}
+</code></pre>
+          </div>
+          <div>
+            <h3>bloc</h3>
+            <pre><code class="language-dart">import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
+import '../../domain/usecases/get_all_posts_usecase.dart';
+import '/features/posts/domain/entities/post_entity.dart';
+
+part 'posts_event.dart';
+part 'posts_state.dart';
+
+class PostsBloc extends Bloc&lt;PostsEvent, PostsState&gt; {
+  final GetAllPostsUseCase getAllPostsUseCase;
+  PostsBloc({required this.getAllPostsUseCase}) : super(PostsInitial()) {
+    on&lt;PostsEvent&gt;((event, emit) async {
+      if (event is GetAllPostsEvent) {
+        emit(PostsLoading());
+        final posts = await getAllPostsUseCase.call();
+        emit(PostsLoaded(posts: posts));
+      }
+    });
+  }
+}
+</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="compact">
+        <div>
+          <h3>Pages</h3>
+          <pre><code class="language-dart">import 'package:flutter/material.dart';
+import '/features/posts/presentation/widgets/post_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/posts_bloc.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: BlocBuilder&lt;PostsBloc, PostsState&gt;(
+        builder: (context, state) {
+          if (state is PostsLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is PostsLoaded) {
+            return ListView.builder(
+              itemCount: state.posts.length,
+              itemBuilder: (context, index) {
+                return PostWidget(post: state.posts[index]);
+              },
+            );
+          }
+          return Center(
+            child: Text('No Posts'),
+          );
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>Widgets</h3>
+          <pre><code class="language-dart">import 'package:flutter/material.dart';
+
+import '../../domain/entities/post_entity.dart';
+
+class PostWidget extends StatelessWidget {
+  final Post post;
+  const PostWidget({super.key, required this.post});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(post.title),
+      subtitle: Text(post.body),
+      onTap: () {},
+    );
+  }
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>Main</h3>
+          <pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/posts/data/data_sources/posts_api.dart';
+import 'features/posts/data/repos/posts_repo.dart';
+import 'features/posts/domain/usecases/get_all_posts_usecase.dart';
+import 'features/posts/presentation/bloc/posts_bloc.dart';
+import 'features/posts/presentation/pages/homepage.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => PostsBloc(
+          getAllPostsUseCase: GetAllPostsUseCase(
+              postsRepo: PostsRepoImpl(postsApiImpl: PostsApiImpl())))
+        ..add(GetAllPostsEvent()),
+      child: MaterialApp(
+        home: HomePage(),
+      ),
+    );
+  }
+}
+</code></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="prism/prism-tn.js"></script>
+</html>

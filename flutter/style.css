@@ -1,0 +1,27 @@
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+pre {
+    height: 35vh;
+    width: 30vw;
+}
+
+@media only screen and (max-width: 1000px) {
+    div.compact {
+        display: inline;
+    }
+    pre {
+        height: 50vh;
+        width: 80vw;
+    }
+  }
+
+.compact {
+    display: flex;
+    gap: 8px;
+}
+
+.gray {
+    color: gray;
+}
