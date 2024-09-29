@@ -34,6 +34,9 @@
           <a href="#redux">
             <h2>Redux</h2>
           </a>
+          <a href="#redux-api">
+            <h2>Redux (API)</h2>
+          </a>
         </div>
       </div>
       <div>
@@ -114,7 +117,7 @@ export async function PATCH(
         </div>
         <!-- <div>
           <h3>Use Cases</h3>
-          <pre><code class="language-dart"></code></pre>
+          <pre><code class="language-tsx"></code></pre>
         </div> -->
       </div>
     </div>
@@ -232,6 +235,158 @@ export default function Home() {
     &lt;/div>
   );
 }
+</code></pre>
+        </div>
+      </div>
+    </div>
+    <div></div>
+      <h2 id="redux-api">Redux</h2>
+      <div>
+        <h2>Api</h2>
+        <div class="compact">
+          <div>
+            <h3>store.ts</h3>
+            <pre><code class="language-tsx">import { configureStore } from "@reduxjs/toolkit";
+import { postsApi } from "./api";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { store } from "../redux/store";
+
+export const makeStore = () => {
+  return configureStore({
+    reducer: {
+      [postsApi.reducerPath]: postsApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(postsApi.middleware),
+  });
+};
+setupListeners(store.dispatch);
+
+export type AppStore = ReturnType&lt;typeof makeStore>;
+export type RootState = ReturnType&lt;AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
+</code></pre>
+          </div>
+          <div>
+            <h3>provider.tsx</h3>
+            <pre><code class="language-tsx">"use client";
+import React from "react";
+import { useRef } from "react";
+import { Provider } from "react-redux";
+import { makeStore, AppStore } from "./store";
+
+export default function StoreProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const storeRef = useRef&lt;AppStore>();
+  if (!storeRef.current) {
+      storeRef.current = makeStore();
+  }
+
+  return &lt;Provider store={storeRef.current}>{children}&lt;/Provider>;
+}
+</code></pre>
+          </div>
+          <div>
+            <h3>layout.tsx</h3>
+            <pre><code class="language-tsx">import React from "react";
+import StoreProvider from "./provider";
+
+export default function MyLayout({
+  children,
+}: Readonly&lt;{
+  children: React.ReactNode;
+}>) {
+  return (
+    &lt;StoreProvider>
+      &lt;main>{children}&lt;/main>
+    &lt;/StoreProvider>
+  );
+}
+</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="compact">
+        <div>
+          <h3>api.ts</h3>
+          <pre><code class="language-tsx">import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { Post } from "./types";
+
+export const postsApi = createApi({
+  reducerPath: "postsApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://jsonplaceholder.typicode.com/",
+  }),
+  endpoints: (builder) => ({
+    getPostsByName: builder.query&lt;Post[], string>({
+      query: () => `posts`,
+    }),
+    createPost: builder.mutation&lt;Post, Partial&lt;Post>>({
+      query: (post) => ({
+        url: "posts",
+        method: "POST",
+        body: post,
+      }),
+    }),
+  }),
+});
+
+export const { useGetPostsByNameQuery, useCreatePostMutation } = postsApi;
+</code></pre>
+        </div>
+        <div>
+          <h3>types.ts</h3>
+          <pre><code class="language-tsx">export interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+</code></pre>
+        </div>
+        <div>
+          <h3>page.tsx</h3>
+          <pre><code class="language-tsx">"use client";
+
+import React from "react";
+import { useGetPostsByNameQuery } from "./api";
+
+export default function MyReduxPage() {
+  const { data, error, isLoading } = useGetPostsByNameQuery("");
+
+  return (
+    &lt;>
+      &lt;h1>MyReduxPage&lt;/h1>
+      {error ? (
+        &lt;span>Oh no, there was an error&lt;/span>
+      ) : isLoading ? (
+        &lt;span>Loading...&lt;/span>
+      ) : data ? (
+        &lt;table>
+          {data.map((post) => (
+            &lt;tr key={post.id}>
+              &lt;td>{post.id}&lt;/td>
+              &lt;td>{post.title}&lt;/td>
+              &lt;td>{post.body}&lt;/td>
+            &lt;/tr>
+          ))}
+        &lt;/table>
+      ) : null}
+
+      
+      &lt;/>
+      );
+    }
+
+    ...
+
+import { useCreatePostMutation } from "../api";
+...
+  const [createPost, { isLoading }] = useCreatePostMutation();
+  ...
+    const response = await createPost({ title, body });
 </code></pre>
         </div>
       </div>
